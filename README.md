@@ -4,7 +4,7 @@ A micro-package written in python. To clone the project, use the command "git cl
 
 ## fileformats
 
-	contains functions to import files. The list of available formats is found in the list "FILE_FORMATS". Use the function "importData(filepath, fileformat)" to import data from a file.
+contains functions to import files. The list of available formats is found in the list "FILE_FORMATS". Use the function "importData(filepath, fileformat)" to import data from a file.
 
 This package requires the following packages installed:
 <!-- matplotlib (https://matplotlib.org/)   -->

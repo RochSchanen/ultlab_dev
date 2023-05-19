@@ -1,0 +1,26 @@
+Metadata-Version: 2.1
+Name: ultlab
+Version: 0.0.0
+Summary: micro-package
+Home-page: https://github.com/RochSchanen/ultlab_dev
+Author: Roch Schanen
+Author-email: r.schanen@lancaster.ac.uk
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.0
+Description-Content-Type: text/markdown
+License-File: LICENCE
+
+# ULTLAB
+
+A micro-package written in python. To clone the project, use the command "git clone https://github.com/RochSchanen/ultlab_dev". To install the package locally, run the command "pip intall ." in the "ultlab_dev" directory. Check installation using the command "pip show ultlab".
+
+## fileformats
+
+	contains functions to import files. The list of available formats is found in the list "FILE_FORMATS". 
+
+This package requires the following packages installed:
+<!-- matplotlib (https://matplotlib.org/)   -->
+numpy (https://numpy.org/)  
+<!-- pillow (https://python-pillow.org/)   -->

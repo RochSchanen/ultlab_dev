@@ -7,7 +7,7 @@ from numpy import loadtxt
 
 FILE_FORMATS = [
     "Labview Generated Data Files - Torsion Oscillator - two lockins",  # 0
-    "Python Generated Data Files - Quartz Tuning Fork - V20230517",     # 1
+    # "Python Generated Data Files - Quartz Tuning Fork - V20230517",     # 1
     ]
 
 def importData(filepath, fileformat):
@@ -71,7 +71,7 @@ def importData(filepath, fileformat):
 
         # done
         return data, header
-
+ 
     # ---------------------------------------------------------------
     # Python Generated Data Files - Quartz Tuning Fork - V20230517
     # ---------------------------------------------------------------

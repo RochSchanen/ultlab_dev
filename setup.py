@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name = "ultlab",
-    version = "0.0.1",
+    version = "0.0.0",
     author = "Roch Schanen",
     author_email = "r.schanen@lancaster.ac.uk",
     description = "micro-package",
@@ -25,7 +25,7 @@ setuptools.setup(
     ],
     install_requires = [
         'numpy', 
-        # 'matplotlib', 
+        'matplotlib', 
         # 'pillow',
         ],
     # install_requires = [],

@@ -2,20 +2,24 @@
 # use sumatrapdf to display and reload the document.
 # if the plot are big, use diferent documents and pdf file names.
 
-#####################
-### A-class sizes ###
-#####################
+### A-class paper sizes
 
-_PageSizes = {"A0" : (841, 1189)}
+class AClass():
 
-# compute smaller sizes
-for i in range(10):
-    W, H = _PageSizes[f"A{i}"]
-    _PageSizes[f"A{i+1}"] = (H/2, W)
-del i, W, H
+    def __init__(self):
+        # largest size
+        d = {"A0" : (841, 1189)}
+        # smaller sizes
+        for i in range(10):
+            W, H = d[f"A{i}"]
+            d[f"A{i+1}"] = (round(H/2), W)
+        # register dictionary
+        self.sizes = d
+        # done
+        return
 
-def PageSize(name):
-    return _PageSizes[name]
+    def PaperSize(self, Format):
+        return self.sizes[Format]
 
 #####################
 ### select figure ###
@@ -26,8 +30,8 @@ _CurrentFigureAxes = None
 
 # "A5" is set as default to fit remarkable 2
 
-def selectfigure(name, 
-        SizeName = "A5",            # A0 to A10
+def SelectFigure(name, 
+        SizeName = "A4",            # A0 to A10
         Margins = 15.0,             # 0 to 100
         orientation = "portrait",   # "portrait", "landscape"
         ):
@@ -40,7 +44,7 @@ def selectfigure(name,
         # create figure
         fg = figure(name)
         # get paper dimensions in mm
-        W, H = PageSize(SizeName)
+        W, H = AClass().PaperSize(SizeName)
         # set figure size  in inches
         fg.set_size_inches(W/25.4, H/25.4)
         # compute square axes length in page units
@@ -98,7 +102,7 @@ class Document():
     def updatefile(self):
         self.openfile()
         for n in self.figures:
-            args = selectfigure(n)
+            args = SelectFigure(n)
             self.filehandle.savefig(args[0])
         self.closefile()
         return
@@ -109,15 +113,95 @@ class Document():
         self.updatefile()
         return
 
+##############
+## LORENTZ ###
+##############
+
+from numpy import square
+
+# in-phase fitting function
+def FX(t, p, w, h, o):
+    x = (t-p)/w
+    y = h/(1+square(x))+o
+    return y
+
+# quadrature fitting function
+def FY(t, p, w, h, o):
+    x = (t-p)/w
+    # y = -x*h/(1+square(x))+o
+    y = +x*h/(1+square(x))+o
+    return y
+
+############
+## SHEET ###
+############
+
+from numpy import array, linspace
+
+class DataSheet():
+
+    def __init__(self):
+        self.data = {}
+        return
+
+    def read(self, path = None):
+        # select path using wx dialog
+        if path is None:
+            # open dialog
+            pass
+        # open file
+
+        # detect file type
+        
+        # import data 
+        
+        # simulate
+        x = linspace(122.5, 123.5, 101)
+        self.data["f"] = x
+        self.data["x"] = FX(x, 123, 0.2, 2.0, 0.0)
+        self.data["y"] = FY(x, 123, 0.2, 2.0, 0.0)
+
+        # done
+        return
+
+    def Col(self, *names):
+        r = []
+        for n in names:        
+            if n in self.data.keys():
+                r.append(self.data[n])
+        # done
+        return r
+
 ##################
 ## TEST MODULE ###
 ##################
 
 if __name__ == "__main__":
 
-    fg1, ax1 = selectfigure("1")
-    fg2, ax2 = selectfigure("2")
+    # fg1, ax1 = selectfigure("1")
+    # fg2, ax2 = selectfigure("2")
 
-    doc = Document("../../results.pdf")
-    doc.exportfigure("1")
-    doc.exportfigure("2")
+    ds = DataSheet()
+    ds.read()
+    # sheet.read("path")
+
+    f = ds.Col("f")
+    x = ds.Col("x")
+    y = ds.Col("y")
+
+    # x, y = sheet.Col("name1", "name2")
+
+    fg, ax = SelectFigure("fx")
+
+    # Plot("figname", x, y, style = sheet.GetStyle("stylename"))
+
+    ax.plot(f, x)
+    ax.plot([0, 1], [0, 1])
+    # sheet.GetStyle("stylename")("figname")
+
+    # s = sheet.GetStyle("stylename")
+    # Plot("figname", x, y, style = s)
+
+    doc = Document("result.pdf")
+    doc.exportfigure("fx")
+    doc.updatefile()

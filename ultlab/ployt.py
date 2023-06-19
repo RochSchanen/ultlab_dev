@@ -387,6 +387,6 @@ if __name__ == "__main__":
 
     SelectFigure("1")
 
-    ds.Plot("f", "x")
+    ds.Plot("f", "y")
 
     doc = Document("result.pdf", "1")

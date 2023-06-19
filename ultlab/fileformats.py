@@ -84,30 +84,33 @@ def ImportFileData(filepath, fileformat = None):
         # done
         return data, header
  
-    # ---------------------------------------------------------------
-    # Python Generated Data Files - Quartz Tuning Fork - V20230517
-    # ---------------------------------------------------------------
-
-    # if fileformat == FILE_FORMATS[1]:
-
-    #     # import file header
-    #     header = ""
-    #     with open(fp, 'r') as fh: L = fh.readlines()
-    #     for l in L[:10]: header += l[2:]
-
-    #     data = loadtxt(fp,
-    #         converters = {
-    #             0: seconds,
-    #             1: float,
-    #             2: float,
-    #             3: float,
-    #         })
-
-    #     T = data[:, 0]
-    #     F = data[:, 1]
-    #     X = data[:, 2]
-    #     Y = data[:, 3]
-
-    #     return data, header
-
     return None
+
+
+# --------------------------------------------------------------------- #
+# Python Generated Data Files - Quartz Tuning Fork - FROM DATE 20230517 #
+# --------------------------------------------------------------------- #
+
+def QTF_TO_DataSheetImport(Datasheet, Filepath)
+
+    # import file header, return as multi-lines string
+    header = ""
+    with open(fp, 'r') as fh: L = fh.readlines()
+    for l in L[:10]: header += l[2:]
+
+    # import data
+    data = loadtxt(fp,
+        converters = {
+            0: seconds,
+            1: float,
+            2: float,
+            3: float,
+        })
+
+    # append columns to datasheet
+    T = data[:, 0]
+    F = data[:, 1]
+    X = data[:, 2]
+    Y = data[:, 3]
+
+    return data, header

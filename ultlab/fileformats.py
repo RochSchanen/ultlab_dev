@@ -5,12 +5,20 @@
 
 from numpy import loadtxt
 
+""" file formats for acquired data storage are classed using the acquisition
+sotware, the device model, the measurement type, and a date used as a version
+number. Each file format has an unique id number.
+"""
+
 FILE_FORMATS = [
-    "Labview Generated Data Files - Torsion Oscillator - two lockins",  # 0
-    # "Python Generated Data Files - Quartz Tuning Fork - V20230517",     # 1
+    ("Labview Generated Data File", "Torsion Oscillator",  "two lockins", ""),              # 0
+    ("Python Generated Data File", "Quartz Tuning Fork", "frequency sweep", "20230517"),    # 1
     ]
 
-def importData(filepath, fileformat):
+def DetectFileFormat(filepath):
+    return 0
+
+def ImportFileData(filepath, fileformat = None):
 
     def seconds(s):
         t =  float(s[0:2])*3600
@@ -18,11 +26,15 @@ def importData(filepath, fileformat):
         t += float(s[6: ])*1
         return t
 
+    # automatic detection
+    if fileformat is None:
+        fileformat = detectFileFormat(filepath)
+
     # ---------------------------------------------------------------
     # Labview Generated Data Files - Torsion Oscillator - two lockins
     # ---------------------------------------------------------------
 
-    if fileformat == FILE_FORMATS[0]:
+    if fileformat == 0:
 
         # import file header    
         with open(filepath, "r") as fh: header_string = fh.readline()

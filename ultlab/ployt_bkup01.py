@@ -1,5 +1,7 @@
-# file: ployt.py
-# created: 
+# file: ployt_bkup01.py
+# created:
+# modified: 2023 06 18
+# author: Roch Schanen
 
 # target: generate pdf document as display, multiple pages with multiple display.
 # use sumatrapdf to display and reload the document.
@@ -121,6 +123,46 @@ class Document():
             self.figures.append(name)
         self.updatefile()
         return
+
+############
+## SHEET ###
+############
+
+class DataSheet():
+
+    def __init__(self):
+        self.data = {}
+        return
+
+    def read(self, path = None):
+        # select path using wx dialog
+        if path is None:
+            # open dialog
+            pass
+        # open file
+
+        # detect file type
+        
+        # import data 
+        
+        # simulate
+        x = linspace(122.5, 123.5, 101)
+        self.data["f"] = x
+        self.data["x"] = FX(x, 123, 0.2, 2.0E-5, 0.0)
+        self.data["y"] = FY(x, 123, 0.2, 2.0E-5, 0.0)
+
+        # done
+        return
+
+    def Col(self, *names):
+        r = []
+        for n in names:        
+            if n in self.data.keys():
+                r.append(self.data[n])
+        # return single column
+        if len(r) == 1: return r[0]
+        # return multiple columns
+        return r
 
 ###########
 ## PLOT ###
@@ -258,91 +300,6 @@ def Plot(*args, **kwargs):
         args = args[1:]
     return _CurrentFigureAxes.plot(*args, **kwargs)
 
-############
-## SHEET ###
-############
-
-class DataSheet():
-
-    def __init__(self):
-        self.data = {}
-        self.units = {}
-        self.prefix = {}
-        self.name = {}
-        return
-
-    def read(self, path = None):
-
-        # select path using wx dialog
-        if path is None:
-            # open dialog
-            pass
-
-        # open file
-
-        # detect file type
-        
-        # import data and header infos
-        
-        # simulate
-        f = linspace(122.5, 123.5, 101)
-
-        # frequency
-        self.data[  "f"] = f
-        self.units[ "f"] = "Hz"
-        self.prefix["f"] = 1.0, ""
-        self.name[  "f"] = "Frequency"
-
-        # x-signal
-        self.data[  "x"] = FX(f, 123, 0.2, 2.0E-5, 0.0)
-        self.units[ "x"] = "V"
-        self.prefix["x"] = 1.0, ""
-        self.name[  "x"] = "X-Signal"
-
-        # y-signal
-        self.data[  "y"] = FY(f, 123, 0.2, 2.0E-5, 0.0)
-        self.units[ "y"] = "V"
-        self.prefix["y"] = 1.0, ""
-        self.name[  "y"] = "Y-Signal"
-
-        # done
-        return
-
-    def Col(self, *names):
-        r = []
-        for n in names:        
-            if n in self.data.keys():
-                r.append(self.data[n])
-        # return single column
-        if len(r) == 1: return r[0]
-        # return multiple columns
-        return r
-
-    def SetUnits(self, name, units):
-        pass
-
-    def Plot(self, colx, coly, xticks = 7, yticks = 7, origin_x = False, origin_y = False):
-        # copy data
-        x, y = ds.Col(colx, coly)
-        # get units
-        ux, uy = self.units[colx], self.units[coly]
-        # set prefixes
-        self.prefix[colx] = GetUnitPrefix(x)
-        self.prefix[coly] = GetUnitPrefix(y)
-        # record prefix values
-        pxa, pxs = self.prefix[colx]
-        pya, pys = self.prefix[coly]
-        # get names
-        nx, ny = self.name[colx], self.name[coly]
-        # add plot
-        Plot(x*pxa, y*pya)
-        # fix style
-        AutoStyle(x*pxa, y*pya, xticks, yticks, origin_x, origin_y)
-        # set labels
-        cfa().set_xlabel(f"{nx} / {pxs}{ux}")
-        cfa().set_ylabel(f"{ny} / {pys}{uy}")
-        return
-
 ##################
 ## TEST MODULE ###
 ##################
@@ -366,27 +323,61 @@ if __name__ == "__main__":
 
     # ds = DataSheet()
 
-    # ds.read()
+    # ds.read() # unfinished
+    # sheet.read("path")
 
-    # SelectFigure("1")
-    # ds.Plot("f", "x")
-    
-    # SelectFigure("2")
-    # ds.Plot("f", "y")
+    # f = ds.Col("f")
+    # x = ds.Col("x")
+    # y = ds.Col("y")
 
-    # SelectFigure("3")
-    # ds.Plot("x", "y", origin_x = True)
+    # f, x, y = ds.Col("f", "x", "y")
 
-    # doc = Document("result.pdf", "1", "2", "3")
+    # fg, ax = SelectFigure("fx")
+    # ax.Plot(f, x)
 
-    ####################################
+    # SelectFigure("fx")
+    # Plot(f, x)
+
+    # Plot("fx", f, x)
+
+    # Plot("fx", ds.Col("f"), ds.Col("x"))
+
+    # Plot("fx", *ds.Col("f", "x"))
+    # Plot("fy", *ds.Col("f", "y"))
+    # Plot("xy", *ds.Col("x", "y"))
+
+    # f, x, y = ds.Col("f", "x", "y")
+
+    # fg, ax = SelectFigure("fx", Size = "A5")
+    # ax.plot(f, x)
+
+    # doc = Document("result.pdf")
+    # doc.exportfigure("fx")
+    # doc.exportfigure("fy")
+    # doc.updatefile()
+
+    # doc = Document("result.pdf", "fx", "fy", "xy")
+
 
     ds = DataSheet()
 
     ds.read()
 
-    SelectFigure("1")
+    f, x, y = ds.Col("f", "x", "y")
 
-    ds.Plot("f", "x")
+    uf, up = GetUnitPrefix(x, y)
 
-    doc = Document("result.pdf", "1")
+    Plot("fx", f, x*uf)
+    AutoStyle(f, x*uf)
+
+    cfa().set_xlabel(f"frequency / Hz")
+    cfa().set_ylabel(f"X signal / {up}V")
+
+    doc = Document("result.pdf", "fx")
+
+    ####################################
+
+    # sheet.GetStyle("stylename")("figname")
+    # Plot("figname", x, y, style = sheet.GetStyle("stylename"))
+    # s = sheet.GetStyle("stylename")
+    # Plot("figname", x, y, style = s)

@@ -1,0 +1,138 @@
+
+################################################################################################################### LABVIEW
+
+################
+### ramp.dat ###
+################
+
+Time	Drive	Coil 1(x)	Coil1(y)	Coil 2(x)	Coil2(y)	AC current(x)	AC current(y)	Coil1	Coil2	AC current
+[s]	[V]	[V]	[V]	[V]	[V]	[V]	[V]	[V]	[V]	[V]
++4.49523930E+4	+5.97804682E-1	+3.55121529E-2	-3.89231095E-2	+6.21175851E+0	-4.85015595E+0	-1.52343897E+0	-2.53008759E+0	+5.26889121E-8	+1.57619741E-5	+1.47666935E-4
+
+########################
+### fsweep full.dat  ###
+########################
+
+freq	V1	V2	sweep at:	08/04/2014	10:48:41
+5.2000000E+1	1.8440300E-7	2.3236600E-7
+...
+freq	V1	V2	sweep at:	08/04/2014	10:48:41
+5.2000000E+1	1.8440300E-7	2.3236600E-7
+
+########################
+### fsweep .dat  ###
+########################
+
+date	time	Vx ht (nV) 	Vx width 	Vx freq 	Vx h*w/d 	Vx mse 	Vx backgr	DVM	Vy ht	Vy width	Vy freq	Vy h*w/d	Vy mse	Vy backgr
+14/04/2014	15:21:21	-0.120   	NaN	5859.9284	 NaN	4.0204E-2	1.5003E+1	0.0000E+0	-1.3988E+1	1.1594E+3	4261.2590	-1.6217E+3	6.0694E+16	1.2724E+0
+
+date	time	Vx ht (nV) 	Vx width 	Vx freq 	Vx h*w/d 	Vx mse 	Vx backgr	DVM	Vy ht	Vy width	Vy freq	Vy h*w/d	Vy mse	Vy backgr
+03/04/2014	14:30:23	2399.284   	10.1449	32698.0658	 3.4772E+0	6.0077E-4	-2.6912E+1	0.0000E+0	2.4612E+3	9.8304E+0	32698.0331	3.4564E+0	1.1426E+15	2.4387E+2
+
+#####################
+### isweep.dat    ###
+#####################
+
+#########################
+###### TWO COLUMNS ######
+
+ampl up	Vx up	Vy up	freq up	ampl down	Vx down	Vy down	freq down	Vcorr up	Vcorr down
+7.1000000000E+0	-2.2351900000E+1	4.8429000000E+1	5.9250000000E+1	-1.2728114722E+2	3.4798107943E+9
+
+#########################
+###### ONE COLUMNS ######
+
+ampl up mV	Vx up uV	Vy up uV	freq up	time up	sens up
+1.0000000000E+1	4.1425500000E+0	3.2604000000E+1	3.2637000000E+4	3.7297718811E+9	1.6000000000E+1
+1.6969696970E+1	-2.5928200000E+0	2.5361900000E+1	3.2637000000E+4	3.7297718857E+9	1.6000000000E+1
+
+#########################
+
+date:10/03/2022	time:04:15:00 PM	path:C:\Torsional Oscillator\Data\Run_25\Amplitude sweep\BaseT_Empty\TF10032022_40dB_100Kgain1.dat	freq:32647.887	sweep from:10.00	sweep to:700.00	points every (s):20.0	Vx brgd lin: Vx^2, Vxslope uV/mV, Vxinter uV 0.000000E+0, 0.000000E+0, 0.000000E+0Vy brgd lin: Vy^2, Vyslope uV/mV, Vyinter uV 0.000000E+0, 0.000000E+0, 0.000000E+0
+
+#########################
+
+date:08/04/2014	time:15:06:34	path:D:\Experiments\3HeAB Cell\RUN28\DEMAG01\IsweepFLOPPER_Run28_DEMAG01_1K_59.250Hz_7.1-7000mV.dat0.dat	freq:59.250	sweep from:7.10	sweep to:7000.00	points every (s):1.0
+SR830  address: 20	sensty:14
+	input:1
+	reserve:2
+	time const: 9
+	slope: 2
+	output: 0,0
+	filters: 0
+	phase: 6
+
+date:08/04/2014	time:15:08:54	path:D:\Experiments\3HeAB Cell\RUN28\DEMAG01\IsweepFLOPPER_Run28_DEMAG01_1K_59.250Hz_7.1-7000mV.dat0.dat	freq:73.250	sweep from:7.10	sweep to:7000.00	points every (s):1.0
+SR830  address: 20	sensty:14
+	input:1
+	reserve:2
+	time const: 9
+	slope: 2
+	output: 0,0
+	filters: 0
+	phase: 6
+
+######################
+### magnet monitor ###
+######################
+
+07/04/2014	14:44:17	2.212000E-6	-1.507000E-6	5.084000E-6
+07/04/2014	14:44:19	1.785000E-6	-2.483000E-6	5.274000E-6
+
+###############
+### tracker ###
+###############
+
+secs	date	time	freq 	width	Vy raw	Vx raw	V corr	Vx bkgd	Vy bkgd	drive	DVM	true drive (mV)	I corr (nA)
+13.11	16/12/2016	12:14:29	296.947	-36.5049	5.58796E+0	-5.42033E+2	-5.40964E+2	-1.09100E+0	9.07000E+0	911.720	0.00000E+0	9.11720E+2	-5.40964E+2
+14.11	16/12/2016	12:14:30	296.944	-34.0401	5.58796E+1	-5.77424E+2	-5.80135E+2	-1.09100E+0	9.07000E+0	911.720	0.00000E+0	9.11720E+2	-5.80135E+2
+15.11	16/12/2016	12:14:31	296.972	-33.1655	7.73002E+1	-5.88600E+2	-5.95433E+2	-1.09100E+0	9.07000E+0	911.720	0.00000E+0	9.11720E+2	-5.95433E+2
+16.11	16/12/2016	12:14:32	297.010	-32.9732	8.75448E+1	-5.89531E+2	-5.98905E+2	-1.09100E+0	9.07000E+0	911.720	0.00000E+0	9.11720E+2	-5.98905E+2
+17.11	16/12/2016	12:14:33	297.054	-32.9941	9.59267E+1	-5.86737E+2	-5.98528E+2	-1.09100E+0	9.07000E+0	911.720	0.00000E+0	9.11720E+2	-5.98528E+2
+secs	date	time	freq 	width	Vy raw	Vx raw	V corr	Vx bkgd	Vy bkgd	drive	DVM	true drive (mV)	I corr (nA)
+9.53	16/12/2016	12:15:13	297.103	40.8751	1.68570E+2	4.21891E+2	4.83127E+2	-1.09100E+0	9.07000E+0	911.720	0.00000E+0	9.11720E+2	4.83127E+2
+10.53	16/12/2016	12:15:14	297.257	38.7642	2.88711E+1	5.07574E+2	5.09436E+2	-1.09100E+0	9.07000E+0	911.720	0.00000E+0	9.11720E+2	5.09436E+2
+
+################################################################################################################### PYTHON
+
+###########################
+### QTF fsweep May 2023 ###
+###########################
+
+# file         :  QTF_TO_20230515T122609.dat
+# start        :  32640Hz
+# stop         :  32700Hz
+# steps        :  100
+# delay        :  5s
+# duration     :  100s
+# attenuation  :  -20dB
+# gain         :  1E+05V/A
+# drive        :  1.0V
+# phase        :  -5.0deg
+12:26:15.961	32640.000000	+1.525890E-04	+2.422350E-03
+12:26:17.389	32640.606061	+1.564040E-04	+2.433790E-03
+
+### LAKESHORE:
+
+Date	Time	Abs Time (s)	R1	R2	R3
+03/03/2022	05:44:12 PM	3.729174251782E+9	 2019.950	 1950.660
+03/03/2022	05:45:12 PM	3.729174311918E+9	 2018.270	 1952.830
+
+### PAROSCIENTIFIC PRESSURE FILES
+
+# (1) Time (sec, since start of programme)
+# (2) Paroscientific T_t (usec)
+# (3) Paroscientific T_p (usec)
+# (4) T (degC)
+# (5) Pressure (mbar, from Paroscientific)
+# (6) Voltage (uV), or resistance (Ohm)
+# (7) Frequency (Hz, from Racal)
+# (8) Pressure (bar, from Racal)
+# (9) Universal time (sec, since 01/01/1904)
+# File created on the 25/03/2022 at 12:17:02 PM
+#
+0.0	5.82187618E+0	2.99659238E+1	24.8198	-1.303221E-4	2343.0922	0.00000000E+0	-27732.0348	3731055400.9
+21.6	5.82187568E+0	2.99659240E+1	24.8217	-1.477451E-4	2343.0922	0.00000000E+0	-27732.0348	3731055422.5
+43.2	5.82187517E+0	2.99659238E+1	24.8236	-1.445466E-4	2343.0922	0.00000000E+0	-27732.0348	3731055444.0
+64.7	5.82187467E+0	2.99659237E+1	24.8254	-1.418556E-4	2343.0922	0.00000000E+0	-27732.0348	3731055465.6
+

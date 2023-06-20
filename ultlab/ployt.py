@@ -15,6 +15,12 @@ from numpy import ceil, floor
 from numpy import log, log10, exp, square, absolute
 from numpy import array, linspace, insert
 
+# split keywords arguments using keywords filter
+def kwargsplit(d, f):
+    r = {k:d[k] for k in d.keys() if k in f}
+    for k in r.keys(): d.pop(k)
+    return r
+
 ### A-class paper sizes
 
 class AClass():
@@ -176,19 +182,15 @@ def _getTickPositions(start, stop, ticks):
     # done
     return M, S
 
-def GetUnitPrefix(table, *tables):
-
-    # find minimum and maximum in table
-    S, E = min(table), max(table)
-
+def GetUnitPrefix(*tables):
+    # find minimum and maximum in first table
+    S, E = min(tables[0]), max(tables[0])
     # find minimum and maximum in all tables
-    for T in tables:
+    for T in tables[1:]:
         s, e = min(T), max(T)
         S, E = min(S, s), max(E, e)
-
     # get the maximum absolute value
     ma = max(absolute(S), absolute(E))
-
     # compute prefactor and prefix
     prefactor, prefix = {   
          0: (1E+00, ""),
@@ -201,21 +203,27 @@ def GetUnitPrefix(table, *tables):
         +3: (1E-09, "G"),
         +4: (1E-12, "T"),
     }[int(floor(log10(ma)/3))]
-    
     # done
     return prefactor, prefix 
 
-def AutoRange(axis, data):
-    # default margin
-    m = 0.1
-    # set limits
-    s, e = min(data), max(data)
-    # extend to margins
-    s, e = s-(e-s)*m, e+(e-s)*m
+def AutoRange(axis, *data, origin = False):
+    # fixed extensions (left, right)
+    l, r = 0.1, 0.1
+    # find limits
+    S, E = min(data[0]), max(data[0])
+    for d in data[1:]:
+        s, e = min(d), max(d)
+        S, E = min(S, s), max(E, e)
+    # add origin
+    if origin: S, E = min(S, 0.0), max(E, 0.0)
+    # prevent zero length
+    if S == E: S, E = S-1.0, E+1.0
+    # extend
+    S, E = S-(E-S)*l, E+(E-S)*r
     # apply to selected axis
     {"x": cfa().set_xlim,
      "y": cfa().set_ylim,
-        }[axis](s, e)
+        }[axis](S, E)
     return 
 
 def AutoTick(axis, ticks = 5):
@@ -243,11 +251,11 @@ def AutoGrid(axis = "both"):
     cfa().grid("on", axis = axis, which = "major", linewidth = 0.6)
     return    
 
-def AutoStyle(x, y, xticks = 7, yticks = 7, origin_x = False, origin_y = False):
-    if origin_x: x = insert(x, 0, 0.0)
-    if origin_y: y = insert(y, 0, 0.0)
-    AutoRange("x", x); AutoTick("x", xticks)
-    AutoRange("y", y); AutoTick("y", yticks)
+def AutoStyle(x, *Y, xticks = 7, yticks = 7, origin_x = False, origin_y = False):
+    AutoRange("x",  x, origin = origin_x)
+    AutoRange("y", *Y, origin = origin_y)
+    AutoTick("x", xticks)
+    AutoTick("y", yticks)
     AutoGrid()
     # done
     return
@@ -256,7 +264,7 @@ def Plot(*args, **kwargs):
     if isinstance(args[0], str):
         SelectFigure(args[0])
         args = args[1:]
-    return _CurrentFigureAxes.plot(*args, **kwargs)
+    return cfa().plot(*args, **kwargs)
 
 ############
 ## SHEET ###
@@ -318,26 +326,29 @@ class DataSheet():
         # return multiple columns
         return r
 
-    def SetUnits(self, name, units):
-        pass
-
-    def Plot(self, colx, coly, xticks = 7, yticks = 7, origin_x = False, origin_y = False):
-        # copy data
-        x, y = ds.Col(colx, coly)
+    def Plot(self, colx, *coly):
+        # get abscisse
+        x = ds.Col(colx)
+        # get ordinates
+        Y = ds.Col(*coly)
         # get units
-        ux, uy = self.units[colx], self.units[coly]
-        # set prefixes
-        self.prefix[colx] = GetUnitPrefix(x)
-        self.prefix[coly] = GetUnitPrefix(y)
-        # record prefix values
-        pxa, pxs = self.prefix[colx]
-        pya, pys = self.prefix[coly]
+        ux = self.units[colx]
+        uy = self.units[coly[0]]
+        # get prefix for the plots
+        pxa, pxs = GetUnitPrefix(x)
+        # make sure Y is a list of arrays ############## SOMETHING WRONG HERE
+        Z = [Y] if not isinstance(Y, list) else Y
+        pya, pys = GetUnitPrefix(*Z)
+        # scale tables
+        x *= pxa
+        for y in Y:
+            y *= pya
         # get names
-        nx, ny = self.name[colx], self.name[coly]
-        # add plot
-        Plot(x*pxa, y*pya)
+        nx, ny = self.name[colx], self.name[coly[0]]
+        # add plots
+        Plot(x, Y[0], x, Y[1])
         # fix style
-        AutoStyle(x*pxa, y*pya, xticks, yticks, origin_x, origin_y)
+        AutoStyle(x, *Y, **kwargs)
         # set labels
         cfa().set_xlabel(f"{nx} / {pxs}{ux}")
         cfa().set_ylabel(f"{ny} / {pys}{uy}")
@@ -387,6 +398,6 @@ if __name__ == "__main__":
 
     SelectFigure("1")
 
-    ds.Plot("f", "y")
+    ds.Plot("f", "y", "x")
 
     doc = Document("result.pdf", "1")

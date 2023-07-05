@@ -326,7 +326,9 @@ class DataSheet():
         # return multiple columns
         return r
 
-    def Plot(self, colx, *coly):
+    def Plot(self, *args, **kwargs):
+        StyleKwargs = kwargsplit(kwargs, [
+            "xticks", "yticks", "origin_x", "origin_y"])
         # get abscisse
         x = ds.Col(colx)
         # get ordinates
@@ -346,7 +348,7 @@ class DataSheet():
         # get names
         nx, ny = self.name[colx], self.name[coly[0]]
         # add plots
-        Plot(x, Y[0], x, Y[1])
+        Plot(*args, **kwargs)
         # fix style
         AutoStyle(x, *Y, **kwargs)
         # set labels
@@ -398,6 +400,6 @@ if __name__ == "__main__":
 
     SelectFigure("1")
 
-    ds.Plot("f", "y", "x")
+    ds.Plot("f", "y", "f", "x")
 
     doc = Document("result.pdf", "1")

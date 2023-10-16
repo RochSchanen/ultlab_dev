@@ -4,6 +4,8 @@ setup.py
 ultlab/__init__.py
 ultlab/fileformats.py
 ultlab/plotstyles.py
+ultlab/ployt.py
+ultlab/ployt_bkup01.py
 ultlab.egg-info/PKG-INFO
 ultlab.egg-info/SOURCES.txt
 ultlab.egg-info/dependency_links.txt

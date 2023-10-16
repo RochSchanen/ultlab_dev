@@ -5,12 +5,20 @@
 
 from numpy import loadtxt
 
+""" file formats for acquired data storage are classed using the acquisition
+sotware, the device model, the measurement type, and a date used as a version
+number. Each file format has an unique id number.
+"""
+
 FILE_FORMATS = [
-    "Labview Generated Data Files - Torsion Oscillator - two lockins",  # 0
-    # "Python Generated Data Files - Quartz Tuning Fork - V20230517",     # 1
+    ("Labview Generated Data File", "Torsion Oscillator",  "two lockins", ""),              # 0
+    ("Python Generated Data File", "Quartz Tuning Fork", "frequency sweep", "20230517"),    # 1
     ]
 
-def importData(filepath, fileformat):
+def DetectFileFormat(filepath):
+    return 0
+
+def ImportFileData(filepath, fileformat = None):
 
     def seconds(s):
         t =  float(s[0:2])*3600
@@ -18,11 +26,15 @@ def importData(filepath, fileformat):
         t += float(s[6: ])*1
         return t
 
+    # automatic detection
+    if fileformat is None:
+        fileformat = detectFileFormat(filepath)
+
     # ---------------------------------------------------------------
     # Labview Generated Data Files - Torsion Oscillator - two lockins
     # ---------------------------------------------------------------
 
-    if fileformat == FILE_FORMATS[0]:
+    if fileformat == 0:
 
         # import file header    
         with open(filepath, "r") as fh: header_string = fh.readline()
@@ -72,30 +84,33 @@ def importData(filepath, fileformat):
         # done
         return data, header
  
-    # ---------------------------------------------------------------
-    # Python Generated Data Files - Quartz Tuning Fork - V20230517
-    # ---------------------------------------------------------------
-
-    # if fileformat == FILE_FORMATS[1]:
-
-    #     # import file header
-    #     header = ""
-    #     with open(fp, 'r') as fh: L = fh.readlines()
-    #     for l in L[:10]: header += l[2:]
-
-    #     data = loadtxt(fp,
-    #         converters = {
-    #             0: seconds,
-    #             1: float,
-    #             2: float,
-    #             3: float,
-    #         })
-
-    #     T = data[:, 0]
-    #     F = data[:, 1]
-    #     X = data[:, 2]
-    #     Y = data[:, 3]
-
-    #     return data, header
-
     return None
+
+
+# --------------------------------------------------------------------- #
+# Python Generated Data Files - Quartz Tuning Fork - FROM DATE 20230517 #
+# --------------------------------------------------------------------- #
+
+def QTF_TO_DataSheetImport(Datasheet, Filepath)
+
+    # import file header, return as multi-lines string
+    header = ""
+    with open(fp, 'r') as fh: L = fh.readlines()
+    for l in L[:10]: header += l[2:]
+
+    # import data
+    data = loadtxt(fp,
+        converters = {
+            0: seconds,
+            1: float,
+            2: float,
+            3: float,
+        })
+
+    # append columns to datasheet
+    T = data[:, 0]
+    F = data[:, 1]
+    X = data[:, 2]
+    Y = data[:, 3]
+
+    return data, header

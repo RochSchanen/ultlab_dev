@@ -1,9 +1,9 @@
 # file: ployt.py
 # created: 
 
-# target: generate pdf document as display, multiple pages with multiple display.
+# motivation: generate pdf document as display, multiple pages with multiple display.
 # use sumatrapdf to display and reload the document.
-# if the plot are big, use diferent documents and pdf file names.
+# if the plots are big, use diferent documents and pdf file names.
 
 # from 
 from matplotlib.pyplot import figure
@@ -327,8 +327,7 @@ class DataSheet():
         return r
 
     def Plot(self, *args, **kwargs):
-        StyleKwargs = kwargsplit(kwargs, [
-            "xticks", "yticks", "origin_x", "origin_y"])
+        StyleKwargs = kwargsplit(kwargs, ["xticks", "yticks", "origin_x", "origin_y"])
         # get abscisse
         x = ds.Col(colx)
         # get ordinates
